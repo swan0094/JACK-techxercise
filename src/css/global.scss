@@ -1,0 +1,300 @@
+:root {
+  --bg-page: #f3f5f8;
+  --bg-panel: #ffffff;
+  --text-main: #1f2937;
+  --text-subtle: #6b7280;
+  --line: #d8dee8;
+  --line-soft: #e7ecf3;
+  --focus: #15a34a;
+  --focus-ring: rgba(21, 163, 74, 0.16);
+  --primary: #159847;
+  --primary-hover: #0f813c;
+  --danger: #d33d30;
+  --danger-hover: #b93126;
+  --ok-bg: #d9f3df;
+  --ok-text: #176636;
+  --bad-bg: #fde0de;
+  --bad-text: #9f1d1d;
+  --shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-main);
+  background: radial-gradient(circle at top, #ffffff 0%, var(--bg-page) 55%);
+}
+
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-main {
+  display: grid;
+  gap: 24px;
+}
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 28px;
+
+  h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    margin: 0;
+    color: var(--text-subtle);
+  }
+}
+
+.section-title {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+}
+
+.empty-state {
+  color: var(--text-subtle);
+  text-align: center;
+  padding: 36px 20px;
+}
+
+.stack-form {
+  display: grid;
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+
+  label,
+  legend {
+    font-size: 0.88rem;
+    color: #485569;
+    font-weight: 600;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-inline-size: 0;
+  }
+}
+
+.field-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+.control {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-main);
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 0.92rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+}
+
+.control--sm {
+  padding: 7px 10px;
+  font-size: 0.9rem;
+}
+
+.control--number {
+  width: 84px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.05s ease,
+    background-color 0.2s ease;
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+
+  &:hover {
+    background: var(--primary-hover);
+  }
+}
+
+.btn--danger {
+  background: var(--danger);
+  color: #fff;
+
+  &:hover {
+    background: var(--danger-hover);
+  }
+}
+
+.btn--sm {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+
+  thead {
+    background: #eef2f7;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 0.9rem;
+  }
+
+  th {
+    color: #334155;
+    font-weight: 700;
+  }
+
+  tbody tr:hover {
+    background: #f8fafc;
+  }
+}
+
+.cell-amount {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.badge-income {
+  background: var(--ok-bg);
+  color: var(--ok-text);
+}
+
+.badge-expense {
+  background: var(--bad-bg);
+  color: var(--bad-text);
+}
+
+.text-positive {
+  color: var(--ok-text);
+}
+
+.text-negative {
+  color: var(--bad-text);
+}
+
+.projection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+
+  .section-title {
+    margin-bottom: 0;
+  }
+}
+
+.control-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  label,
+  span {
+    font-size: 0.88rem;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .data-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .control-inline {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
