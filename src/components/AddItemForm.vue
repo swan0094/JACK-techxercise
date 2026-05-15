@@ -57,7 +57,7 @@
         </fieldset>
       </div>
 
-      <div v-if="formData.type === 'transfer'" class="field">
+      <div v-if="formData.type === TransactionType.Transefer" class="field">
         <label for="toEntity">Transfer To</label>
         <select id="toEntity" v-model="formData.toEntity" class="control" required>
           <option v-for="entity in toEntities" :key="entity" :value="entity">
@@ -66,30 +66,18 @@
         </select>
       </div>
 
-      <div v-if="formData.type === 'transfer'" class="field">
-        <label>
-          <input v-model="formData.isOneOffTransfer" type="checkbox" />
-          Once-off transfer (applies in Month 1 only)
-        </label>
-      </div>
-
       <div class="field">
         <label for="frequency">Frequency</label>
-        <select
-          id="frequency"
-          v-model="formData.frequency"
-          class="control"
-          :disabled="formData.type === 'transfer' && formData.isOneOffTransfer"
-          required
-        >
+        <select id="frequency" v-model="formData.frequency" class="control" required>
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
+          <option value="once">Once-off (Month 1 only)</option>
         </select>
       </div>
 
       <button type="submit" class="btn btn--primary">
-        {{ formData.type === 'transfer' ? 'Add Transfer' : 'Add Transaction' }}
+        {{ formData.type === TransactionType.Transefer ? 'Add Transfer' : 'Add Transaction' }}
       </button>
     </form>
   </section>
@@ -99,9 +87,7 @@
 import { computed, reactive, watch } from 'vue'
 import { useCashflowStore } from '@/stores/cashflow'
 import { ENTITIES } from '@/models/models'
-import type { EntityType, RecurrenceType, TransactionType } from '@/models/models'
-
-type FormTransactionType = TransactionType | 'transfer'
+import { EntityType, TransactionType, ItemFrequency } from '@/models/models'
 
 const store = useCashflowStore()
 
@@ -114,10 +100,9 @@ const formData = reactive({
   entity: ENTITIES[0] as EntityType,
   name: '',
   amount: 0,
-  type: 'income' as FormTransactionType,
-  frequency: 'monthly' as RecurrenceType,
+  type: TransactionType.Income,
+  frequency: ItemFrequency.Monthly,
   toEntity: getDefaultToEntity(ENTITIES[0] as EntityType),
-  isOneOffTransfer: false,
 })
 
 const toEntities = computed(() => {
@@ -133,25 +118,16 @@ watch(
   },
 )
 
-watch(
-  () => formData.type,
-  (currentType) => {
-    if (currentType !== 'transfer') {
-      formData.isOneOffTransfer = false
-    }
-  },
-)
-
 const handleSubmit = () => {
   if (!formData.name.trim() || formData.amount <= 0) {
     return
   }
 
-  if (formData.type === 'transfer') {
+  if (formData.type === TransactionType.Transefer) {
     store.addTransfer({
       name: formData.name,
       amount: formData.amount,
-      frequency: formData.isOneOffTransfer ? 'once' : formData.frequency,
+      frequency: formData.frequency,
       fromEntity: formData.entity,
       toEntity: formData.toEntity,
     })
@@ -167,9 +143,8 @@ const handleSubmit = () => {
 
   formData.name = ''
   formData.amount = 0
-  formData.type = 'income'
-  formData.frequency = 'monthly'
+  formData.type = TransactionType.Income
+  formData.frequency = ItemFrequency.Monthly
   formData.toEntity = getDefaultToEntity(formData.entity)
-  formData.isOneOffTransfer = false
 }
 </script>

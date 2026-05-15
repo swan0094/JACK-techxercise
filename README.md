@@ -1,48 +1,49 @@
-# JACK-techxercise
+# JACKapp Technical Exercise - Alex Swan
 
-This template should help get you started developing with Vue 3 in Vite.
+A simple Vue 3 project written in Composition API and TypeScript that will allow a user to conduct a basic
+monthly cashflow projection based on expenses, income and transfers.
 
-## Recommended IDE Setup
+The user is able to enter either income, expense or a transfer. All 3 can be done either as reoccuring or a single
+occurence.
+Supports inter-entity transfers and multi-entity hierarchy with seperate reports for each entity.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Run The App
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+1. Install dependencies:
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+2. Start the development server:
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+3. Open the local URL shown in the terminal.
+
+## Testing
+
+- To run the test suite:
 
 ```sh
-npm run build
+npm run test
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Assumptions And Simplifications
 
-```sh
-npm run lint
-```
+1. Recurrence is calculated using fixed monthly averages, not calendar-accurate schedules:
+   - Daily = `30.44` occurrences per month
+   - Weekly = `4.35` occurrences per month
+   - Monthly = `1` occurrence per month
+
+2. Recurring items and recurring transactions are not aligned to real dates (for example, no "every Wednesday" logic).
+
+3. Once-off transactions apply to Month 1 only in the projection.
+
+4. Projection is from the current month label and balance starts at 0.
+
+5. Data is in-memory only (no persistence/database/local storage).
+
+6. I was not sure on the idea of "consolidated reporting" so I kept the tables seperate for clarity.

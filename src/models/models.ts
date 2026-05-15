@@ -1,33 +1,44 @@
 // Due to the nature of this project, I am simply keeping all types and models in this single file.
 // In a larger project, I would likely split these into multiple files for better organisation.
 
-export type RecurrenceType = 'daily' | 'weekly' | 'monthly'
-export type TransactionType = 'income' | 'expense'
-export type TransferFrequency = RecurrenceType | 'once'
-export type EntityType = 'Sales' | 'Operations'
+export enum ItemFrequency {
+  Daily = 'daily',
+  Weekly = 'weekly',
+  Monthly = 'monthly',
+  Once = 'once',
+}
 
-export type NewRecurringItem = Omit<RecurringItem, 'id'>
-export type NewTransfer = Omit<Transfer, 'id'>
+export enum TransactionType {
+  Income = 'income',
+  Expense = 'expense',
+  Transefer = 'transfer',
+}
 
-export const ENTITIES: EntityType[] = ['Sales', 'Operations']
+export enum EntityType {
+  Sales = 'Sales',
+  Operations = 'Operations',
+}
+export const ENTITIES: EntityType[] = [EntityType.Sales, EntityType.Operations]
 
 export interface RecurringItem {
   id: string
   name: string
   amount: number
-  frequency: RecurrenceType
+  frequency: ItemFrequency
   type: TransactionType
   entity: EntityType
 }
+export type NewRecurringItem = Omit<RecurringItem, 'id'>
 
 export interface Transfer {
   id: string
   name: string
   amount: number
-  frequency: TransferFrequency
+  frequency: ItemFrequency
   fromEntity: EntityType
   toEntity: EntityType
 }
+export type NewTransfer = Omit<Transfer, 'id'>
 
 export interface MonthProjection {
   month: number

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import ItemsList from './ItemsList.vue'
-import { useCashflowStore } from '@/stores/cashflow'
+import ItemsList from '../src/components/ItemsList.vue'
+import { useCashflowStore } from '../src/stores/cashflow'
 
 describe('ItemsList', () => {
   it('shows empty state when there are no items', () => {
@@ -27,9 +27,9 @@ describe('ItemsList', () => {
       id: 'item-1',
       name: 'Salary',
       amount: 1000,
-      type: 'income',
-      frequency: 'monthly',
-      entity: 'Sales',
+      type: TransactionType.Income,
+      frequency: ItemFrequency.Monthly,
+      entity: EntityType.Sales,
     })
 
     const removeSpy = vi.spyOn(store, 'removeItem')

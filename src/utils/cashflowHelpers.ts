@@ -1,11 +1,6 @@
-import type {
-  EntityType,
-  MonthProjection,
-  RecurrenceType,
-  RecurringItem,
-  Transfer,
-  TransferFrequency,
-} from '../models/models'
+import { EntityType } from '@/models/models'
+import { ItemFrequency, TransactionType } from '../models/models'
+import type { MonthProjection, RecurringItem, Transfer } from '../models/models'
 
 export function getMonthLabel(monthOffset: number): string {
   const date = new Date()
@@ -13,28 +8,29 @@ export function getMonthLabel(monthOffset: number): string {
   return date.toLocaleString('default', { month: 'short', year: 'numeric' })
 }
 
-export function getOccurrencesInMonth(frequency: RecurrenceType): number {
+export function getOccurrencesInMonth(frequency: ItemFrequency): number {
   switch (frequency) {
-    case 'daily':
+    case ItemFrequency.Daily:
       return 30.44 // average days per month
-    case 'weekly':
+    case ItemFrequency.Weekly:
       return 4.35 // average weeks per month
-    case 'monthly':
+    case ItemFrequency.Monthly:
+      return 1
+    case ItemFrequency.Once:
       return 1
     default:
       return 0
   }
 }
 
-function getTransferAmountForMonth(
-  frequency: TransferFrequency,
+export function getItemAmountForMonth(
+  frequency: ItemFrequency,
   amount: number,
   monthIndex: number,
 ): number {
-  if (frequency === 'once') {
+  if (frequency === ItemFrequency.Once) {
     return monthIndex === 0 ? amount : 0
   }
-
   return amount * getOccurrencesInMonth(frequency)
 }
 
@@ -61,9 +57,9 @@ function calculateProjectionTotalsForMonth(
       return
     }
 
-    const monthlyAmount = item.amount * getOccurrencesInMonth(item.frequency)
+    const monthlyAmount = getItemAmountForMonth(item.frequency, item.amount, monthIndex)
 
-    if (item.type === 'income') {
+    if (item.type === TransactionType.Income) {
       totalIncome += monthlyAmount
     } else {
       totalExpenses += monthlyAmount
@@ -71,7 +67,7 @@ function calculateProjectionTotalsForMonth(
   })
 
   transfers.forEach((transfer) => {
-    const monthlyAmount = getTransferAmountForMonth(transfer.frequency, transfer.amount, monthIndex)
+    const monthlyAmount = getItemAmountForMonth(transfer.frequency, transfer.amount, monthIndex)
 
     if (!entity) {
       totalTransfersOut += monthlyAmount

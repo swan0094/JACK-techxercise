@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
+import { EntityType } from '@/models/models'
 import type {
-  EntityType,
   MonthProjection,
   NewRecurringItem,
   NewTransfer,

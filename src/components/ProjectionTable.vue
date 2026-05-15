@@ -66,10 +66,10 @@
 import { computed, ref } from 'vue'
 import { useCashflowStore } from '@/stores/cashflow'
 import { ENTITIES } from '@/models/models'
-import type { EntityType } from '@/models/models'
+import { EntityType } from '@/models/models'
 
 const store = useCashflowStore()
-const selectedEntity = ref<EntityType>(ENTITIES[0] ?? 'Sales')
+const selectedEntity = ref<EntityType>(ENTITIES[0] ?? EntityType.Sales)
 
 const selectedEntityProjection = computed(() => {
   return store.getEntityProjectedCashflow(selectedEntity.value)
